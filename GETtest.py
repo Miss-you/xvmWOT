@@ -12,6 +12,12 @@ def getImg(html):
     imgre = re.compile(reg)
     imglist = re.findall(imgre,html)
     return imglist 
+    
+def getArticleHtml(html):
+    reg = r'http://blog.csdn.net/qq_15437667/article/details/[0-9]*'
+    htmlre = re.compile(reg)
+    arthtmllist = re.findall(htmlre,html)
+    return arthtmllist     
 
 def getHtml(url, values, headers):
     data = urllib.urlencode(values)  
@@ -53,3 +59,4 @@ page = getHtml(url, values, headers)
 
 #print page
 print getImg(page)
+print getArticleHtml(page)
