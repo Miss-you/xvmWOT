@@ -14,7 +14,7 @@ def getImg(html):
     return imglist 
     
 def getArticleHtml(html):
-    reg = r'http://blog.csdn.net/qq_15437667/article/details/[0-9]*'
+    reg = r'[3-9][0-9]{7}'
     htmlre = re.compile(reg)
     arthtmllist = re.findall(htmlre,html)
     return arthtmllist     
@@ -37,8 +37,22 @@ def getHtml(url, values, headers):
         page = response.read()
     
     return page
+    
+def hitHtml(url, values, headers):
+    data = urllib.urlencode(values)  
+    request = urllib2.Request(url, data, headers)
+    
+    try:
+		response = urllib2.urlopen(request, timeout=10)
+    except urllib2.HTTPError, e:
+        print e.code   
+    except urllib2.URLError, e:
+        if hasattr(e,"code"):
+            print e.code
+        if hasattr(e,"reason"):
+            print e.reason     
 
-url = 'http://blog.csdn.net/qq_15437667/article/details/50923575'
+url = 'http://blog.csdn.net/qq_15437667'
 user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A403 Safari/8536.25'  
 values = {'username' : 'ww770666',  'password' : '5591632w'}
 headers = { 'User-Agent' : user_agent , 			'Referer': 'http://blog.csdn.net/'} 
@@ -58,5 +72,14 @@ urllib2.install_opener(opener)
 page = getHtml(url, values, headers)
 
 #print page
-print getImg(page)
-print getArticleHtml(page)
+#print getImg(page)
+htmllist = getArticleHtml(page)
+print htmllist
+
+for i in range(len(htmllist)):
+    htmllist[i] = 'http://blog.csdn.net/qq_15437667/article/details/' + htmllist[i]
+    
+print htmllist    
+
+for i in range(len(htmllist)):
+    hitHtml(htmllist[i], values, headers)
