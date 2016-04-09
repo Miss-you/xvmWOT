@@ -74,12 +74,12 @@ page = getHtml(url, values, headers)
 #print page
 #print getImg(page)
 htmllist = getArticleHtml(page)
-print htmllist
+#print htmllist
 
 for i in range(len(htmllist)):
     htmllist[i] = 'http://blog.csdn.net/qq_15437667/article/details/' + htmllist[i]
     
-print htmllist    
+#print htmllist    
 
 for i in range(len(htmllist)):
     hitHtml(htmllist[i], values, headers)
