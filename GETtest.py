@@ -36,21 +36,7 @@ def getHtml(url, values, headers):
     else:
         page = response.read()
     
-    return page
-    
-def hitHtml(url, values, headers):
-    data = urllib.urlencode(values)  
-    request = urllib2.Request(url, data, headers)
-    
-    try:
-		response = urllib2.urlopen(request, timeout=10)
-    except urllib2.HTTPError, e:
-        print e.code   
-    except urllib2.URLError, e:
-        if hasattr(e,"code"):
-            print e.code
-        if hasattr(e,"reason"):
-            print e.reason     
+    return page   
 
 url = 'http://blog.csdn.net/qq_15437667'
 user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A403 Safari/8536.25'  
@@ -76,10 +62,4 @@ page = getHtml(url, values, headers)
 htmllist = getArticleHtml(page)
 #print htmllist
 
-for i in range(len(htmllist)):
-    htmllist[i] = 'http://blog.csdn.net/qq_15437667/article/details/' + htmllist[i]
-    
-#print htmllist    
 
-for i in range(len(htmllist)):
-    hitHtml(htmllist[i], values, headers)
