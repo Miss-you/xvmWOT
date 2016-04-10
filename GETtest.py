@@ -38,7 +38,7 @@ def getHtml(url, values, headers):
     
     return page   
 
-url = 'http://blog.csdn.net/qq_15437667'
+url = 'http://www.qiushibaike.com/'
 user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A403 Safari/8536.25'  
 values = {'username' : 'ww770666',  'password' : '5591632w'}
 headers = { 'User-Agent' : user_agent , 			'Referer': 'http://blog.csdn.net/'} 
@@ -59,7 +59,7 @@ page = getHtml(url, values, headers)
 
 #print page
 #print getImg(page)
-htmllist = getArticleHtml(page)
+#htmllist = getArticleHtml(page)
 #print htmllist
 
 
