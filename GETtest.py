@@ -1,3 +1,5 @@
+# -*- coding:utf-8 -*-
+
 import urllib
 import urllib2
 import re
@@ -20,26 +22,31 @@ def getArticleHtml(html):
     return arthtmllist     
 
 def getHtml(url, values, headers):
-    data = urllib.urlencode(values)  
-    request = urllib2.Request(url, data, headers) 
-#    request = urllib2.Request('http://www.xxxxx.com')
+    if values != None :
+        data = urllib.urlencode(values)  
+        request = urllib2.Request(url, data, headers) 
+    else :
+        request = urllib2.Request(url, headers = headers) 
 
     try:
 		response = urllib2.urlopen(request, timeout=10)
     except urllib2.HTTPError, e:
         print e.code   
+        return None
     except urllib2.URLError, e:
         if hasattr(e,"code"):
             print e.code
         if hasattr(e,"reason"):
-            print e.reason     
+            print e.reason   
+        return None  
     else:
         page = response.read()
     
     return page   
 
 url = 'http://www.qiushibaike.com/'
-user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A403 Safari/8536.25'  
+#user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A403 Safari/8536.25'
+user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'  
 values = {'username' : 'ww770666',  'password' : '5591632w'}
 headers = { 'User-Agent' : user_agent , 			'Referer': 'http://blog.csdn.net/'} 
 #enable proxy
@@ -55,9 +62,10 @@ urllib2.install_opener(opener)
 '''
 
 #use safari Agent
-page = getHtml(url, values, headers)
+#page = getHtml(url, values, headers)
+page = getHtml(url, None, headers)
 
-#print page
+print page
 #print getImg(page)
 #htmllist = getArticleHtml(page)
 #print htmllist
