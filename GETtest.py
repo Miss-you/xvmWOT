@@ -67,12 +67,14 @@ page = getHtml(url, None, headers)
 
 #print page
 
-content = page.decode('utf-8')
-pattern = re.compile('<div.*?class="author.*?>.*?<a.*?</a>.*?<a.*?>(.*?)</a>.*?<div.*?class'+
-                     '="content".*?title="(.*?)">(.*?)</div>(.*?)<div class="stats.*?class="number">(.*?)</i>',re.S)
-items = re.findall(pattern,content)
-for item in items:
-    print item[0],item[1],item[2],item[3],item[4]
+content = page
+reg = r'<div.*?class="content"[.*?]+<\/div>'
+pattern = re.compile(reg)
+items = re.findall(pattern,page)
+
+print items
+#for item in items:
+#    print item[0],item[1],item[2],item[3],item[4]
 
 #print getImg(page)
 #htmllist = getArticleHtml(page)
