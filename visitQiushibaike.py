@@ -1,5 +1,6 @@
 __author__ = 'CQC'
-# -*- coding:utf-8 -*-
+# coding=gbk 
+
 import urllib
 import urllib2
 import re
