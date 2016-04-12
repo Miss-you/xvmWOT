@@ -45,8 +45,8 @@ def getHtml(url, values, headers):
     return page   
 
 url = 'http://www.qiushibaike.com/'
-#user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A403 Safari/8536.25'
-user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'  
+user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A403 Safari/8536.25'
+#user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'  
 values = {'username' : 'ww770666',  'password' : '5591632w'}
 headers = { 'User-Agent' : user_agent , 			'Referer': 'http://blog.csdn.net/'} 
 #enable proxy
@@ -65,7 +65,15 @@ urllib2.install_opener(opener)
 #page = getHtml(url, values, headers)
 page = getHtml(url, None, headers)
 
-print page
+#print page
+
+content = page.decode('utf-8')
+pattern = re.compile('<div.*?class="author.*?>.*?<a.*?</a>.*?<a.*?>(.*?)</a>.*?<div.*?class'+
+                     '="content".*?title="(.*?)">(.*?)</div>(.*?)<div class="stats.*?class="number">(.*?)</i>',re.S)
+items = re.findall(pattern,content)
+for item in items:
+    print item[0],item[1],item[2],item[3],item[4]
+
 #print getImg(page)
 #htmllist = getArticleHtml(page)
 #print htmllist
