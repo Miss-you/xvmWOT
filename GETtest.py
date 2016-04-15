@@ -67,7 +67,7 @@ page = getHtml(url, None, headers)
 
 #print page
 
-content = page
+content = page.decode('utf-8')
 reg = r'<div.*?class="content"[.*?]+<\/div>'
 pattern = re.compile(reg)
 items = re.findall(pattern,page)
