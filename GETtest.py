@@ -65,7 +65,7 @@ urllib2.install_opener(opener)
 #page = getHtml(url, values, headers)
 page = getHtml(url, None, headers)
 
-#print page
+print page
 
 content = page.decode('utf-8')
 reg = r'<div.*?class="content"[.*?]+<\/div>'
