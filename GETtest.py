@@ -72,7 +72,7 @@ reg = r'<div.*?class="content"[.*?]+<\/div>'
 pattern = re.compile(reg)
 items = re.findall(pattern,page)
 
-#print items
+print items
 #for item in items:
 #    print item[0],item[1],item[2],item[3],item[4]
 
