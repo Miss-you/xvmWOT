@@ -67,13 +67,15 @@ page = getHtml(url, None, headers)
 
 #print page
 
-#content = page.decode('utf-8')
-content = page
+content = page.decode('utf-8')
+#content = page
 
 reg = r'<div class="mlr mt10 content-text">+([\s\S]*)<\/div>'
 #b = re.compile(u"[\u4e00-\u9fa5]{1,2}")
 pattern = re.compile(reg)
 items = re.findall(pattern,page)
+
+
 
 '''
 m =  items.search(s,0)
