@@ -65,25 +65,20 @@ urllib2.install_opener(opener)
 #page = getHtml(url, values, headers)
 page = getHtml(url, None, headers)
 
-#print page
+print page
 
 content = page.decode('utf-8')
 #content = page
 
-reg = r'<div class="mlr mt10 content-text">+([\s\S]*)<\/div>'
+#<div class="mlr mt10 content-text">([\u000d\u000a\u4e00-\u9fa5\uff00-\uff20\u3002]+)<\/div>
+#reg = '<div class="mlr mt10 content-text">([a-zA-Z0-9\u000d\u000a\u4e00-\u9fa5\uff00-\uff20\u3000-\u30ff]+)(\s\S)</div>'
+reg = '([\u000d\u000a\u4e00-\u9fa5\uff00-\uff20\u3000-\u30ff]+)'
 #b = re.compile(u"[\u4e00-\u9fa5]{1,2}")
 pattern = re.compile(reg)
 items = re.findall(pattern,page)
 
-
-
-'''
-m =  items.search(s,0)
-print m.group()
-'''
-
 #print items[0].group()
-#print items
+print items
 #print items[0].decode('utf-8')
 #print items[0]
 
