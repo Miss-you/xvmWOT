@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+#_*_ coding: utf-8_*_
 
 import urllib
 import urllib2
@@ -65,14 +65,33 @@ urllib2.install_opener(opener)
 #page = getHtml(url, values, headers)
 page = getHtml(url, None, headers)
 
-print page
+#print page
 
-content = page.decode('utf-8')
-reg = r'<div.*?class="content"[.*?]+<\/div>'
+#content = page.decode('utf-8')
+content = page
+
+reg = r'<div class="mlr mt10 content-text">+([\s\S]*)<\/div>'
+#b = re.compile(u"[\u4e00-\u9fa5]{1,2}")
 pattern = re.compile(reg)
 items = re.findall(pattern,page)
 
-print items
+'''
+m =  items.search(s,0)
+print m.group()
+'''
+
+#print items[0].group()
+#print items
+#print items[0].decode('utf-8')
+#print items[0]
+
+'''
+for item in items:
+    haveImg = re.search("img",item[3])
+    if not haveImg:
+        print item[0],item[1],item[2],item[4]
+'''
+          
 #for item in items:
 #    print item[0],item[1],item[2],item[3],item[4]
 
