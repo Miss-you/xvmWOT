@@ -1,5 +1,6 @@
 #_*_ coding: utf-8_*_
 
+'''
 import urllib
 import urllib2
 import re
@@ -50,44 +51,34 @@ user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/
 values = {'username' : 'ww770666',  'password' : '5591632w'}
 headers = { 'User-Agent' : user_agent , 			'Referer': 'http://blog.csdn.net/'} 
 #enable proxy
-'''
-enable_proxy = True
-proxy_handler = urllib2.ProxyHandler({"http" : 'http://218.75.100.114:8080'})
-null_proxy_handler = urllib2.ProxyHandler({})
-if enable_proxy:
-    opener = urllib2.build_opener(proxy_handler)
-else:
-    opener = urllib2.build_opener(null_proxy_handler)
-urllib2.install_opener(opener)
-'''
+
 
 #use safari Agent
 #page = getHtml(url, values, headers)
 page = getHtml(url, None, headers)
 
-print page
+#print page
 
 content = page.decode('utf-8')
 #content = page
 
 #<div class="mlr mt10 content-text">([\u000d\u000a\u4e00-\u9fa5\uff00-\uff20\u3002]+)<\/div>
-#reg = '<div class="mlr mt10 content-text">([a-zA-Z0-9\u000d\u000a\u4e00-\u9fa5\uff00-\uff20\u3000-\u30ff]+)(\s\S)</div>'
-reg = '([\u000d\u000a\u4e00-\u9fa5\uff00-\uff20\u3000-\u30ff]+)'
+reg = '<div class=\"mlr mt10 content-text\">([a-zA-Z0-9\u000d\u000a\u4e00-\u9fa5\uff00-\uff20\u3000-\u30ff]+)(\s\S)</div>'
+#reg = r'([\u000d\u000a\u4e00-\u9fa5\uff00-\uff20\u3000-\u30ff]+)'
+#reg = r'([\u4e00-\u9fa5\uff00-\uff20\u3000-\u30ff]+)'
 #b = re.compile(u"[\u4e00-\u9fa5]{1,2}")
 pattern = re.compile(reg)
 items = re.findall(pattern,page)
+print items
+
 
 #print items[0].group()
-print items
+
+
 #print items[0].decode('utf-8')
 #print items[0]
 
-'''
-for item in items:
-    haveImg = re.search("img",item[3])
-    if not haveImg:
-        print item[0],item[1],item[2],item[4]
-'''
+
           
 #for item in items:
 #    print item[0],item[1],item[2],item[3],item[4]
@@ -97,3 +88,31 @@ for item in items:
 #print htmllist
 
 
+'''
+
+# -*- coding:utf-8 -*-
+import urllib
+import urllib2
+import re
+ 
+page = 1
+url = 'http://www.qiushibaike.com/hot/page/' + str(page)
+user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+headers = { 'User-Agent' : user_agent }
+try:
+    request = urllib2.Request(url,headers = headers)
+    response = urllib2.urlopen(request)
+    content = response.read().decode('utf-8')
+    print content
+##<div class="mlr mt10 content-text">([\u000d\u000a\u4e00-\u9fa5\uff00-\uff20\u3002]+)<\/div>
+    pattern = re.compile('<div.*?class="mlr.*?mt10.*?content-text>.*?([\u000d\u000a\u4e00-\u9fa5\uff00-\uff20\u3000-\u3010]+).*?<\/div>',re.S)
+    items = re.findall(pattern,content)
+    for item in items:
+        haveImg = re.search("img",item[3])
+        if not haveImg:
+            print item[0],item[1],item[2],item[4]
+except urllib2.URLError, e:
+    if hasattr(e,"code"):
+        print e.code
+    if hasattr(e,"reason"):
+        print e.reason
