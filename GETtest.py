@@ -103,7 +103,7 @@ try:
     request = urllib2.Request(url,headers = headers)
     response = urllib2.urlopen(request)
     content = response.read().decode('utf-8')
-#    print content
+    print content
 ##<div class="mlr mt10 content-text">([\u000d\u000a\u4e00-\u9fa5\uff00-\uff20\u3002]+)<\/div>
     pattern = re.compile('<div.*?class="mlr.*?mt10.*?content-text>.*?([\u000d\u000a\u4e00-\u9fa5\uff00-\uff20\u3000-\u3010]+).*?<\/div>',re.S)
     items = re.findall(pattern,content)
