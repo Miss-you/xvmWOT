@@ -6,12 +6,18 @@ import re
 import os
 import shutil
   
-def getImg(html):
+def getImgUrl(page):
     #http://ww2.sinaimg.cn/large/d030806ajw1f53845zoo3j20my0g1di1.jpg 
     reg = r'http://ww[0-9].sinaimg.cn/.+?\.jpg'
     imgre = re.compile(reg)
-    imglist = re.findall(imgre,html)
+    imglist = re.findall(imgre,page)
     return imglist 
+
+def getImagepageHtml(page):
+    reg = r'http://www.jdlingyu.com/[0-9]{5}/'
+    imghtmlre = re.compile(reg)
+    htmlList = re.findall(imghtmlre,page)
+    return htmlList
 
 #获取网页信息
 def getHtml(url, values, headers):
@@ -38,6 +44,7 @@ def getHtml(url, values, headers):
     return page   
 
 #保存文件
+#todo
 def saveFile(target, data):
     if data == None:
         return
@@ -77,35 +84,55 @@ url = 'http://www.jdlingyu.com/'
 user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A403 Safari/8536.25'
 headers = { 'User-Agent' : user_agent }
 
-def downloadHtmlImg(imgSerial):
-    imgUrl = url + str(imgSerial)
-    print imgUrl
+def getImagepageHtmlSerial(imgPage):
+    serial = filter(lambda x:x.isdigit(),imgPage)
     
+    return serial
+
+def downloadHtmlImg(pageNum):
     #get page
-    page = getHtml(imgUrl, None, headers)
+    if pageNum == 1:
+        page = getHtml(url, None, headers)
+    else:    
+        html = url + '/page/' + str(pageNum)
+        print html
+        page = getHtml(html, None, headers)
     if page == None:
-        print(imgUrl + "unavailable!")
+        print("main page unavailable!")
         return
         
-    #get img list
-    imglist = getImg(page)
-    imglist = list(set(imglist))
-    #download img
-    downImg(imglist, imgSerial)
+    imghtmlList = getImagepageHtml(page)
+    imghtmlList = list(set(imghtmlList))
+    
+    for imgHtml in imghtmlList:
+        imgPage = getHtml(imgHtml, None, headers)
+        if imgPage == None:
+            print(imgHtml + "unavailable!")
+            return
+            
+        #get img list
+        imgList = getImgUrl(imgPage)
+        imgList = list(set(imgList))
+    
+        imgSerial = getImagepageHtmlSerial(imgHtml)
+        #download img
+        downImg(imgList, imgSerial)
+        
     
 #for i = 0; i < 5; i++:
 def run():
-    for i in range(0, 25):
+    for i in range(0, 2):
         #print i
-        downloadHtmlImg(11992 - i)
+        downloadHtmlImg(1 + i)
+
+
+'''
+#page = getHtml("http://www.jdlingyu.com/page/2/", None, headers)
+page = getHtml("http://www.jdlingyu.com/", None, headers)
+imghtmlList = getImagepageHtml(page)
+imghtmlList = list(set(imghtmlList))
+'''
+
+#print getImgSerial("http://www.jdlingyu.com/11970/")
 
 run()
-
-'''
-page = getHtml(url, None, headers)
-
-imglist = getImg(page)
-print imglist
-
-downImg(imglist)
-'''
