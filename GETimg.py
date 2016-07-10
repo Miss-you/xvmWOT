@@ -5,7 +5,10 @@ import urllib2
 import re
 import os
 import shutil
-  
+import sys
+
+
+
 def getImgUrl(page):
     #http://ww2.sinaimg.cn/large/d030806ajw1f53845zoo3j20my0g1di1.jpg 
     reg = r'http://ww[0-9].sinaimg.cn/.+?\.jpg'
@@ -56,7 +59,7 @@ def saveFile(target, data):
 
 #根据照片连接下载照片
 def downImg(html_imgList, imgSerial):
-    picPath = '/Users/yousa/Desktop/pic/' + str(imgSerial)
+    picPath = filePath + '/' + str(imgSerial)
     
     if len(html_imgList) == 0:
         print ("html_imgList is None")
@@ -94,7 +97,7 @@ def downloadHtmlImg(pageNum):
     if pageNum == 1:
         page = getHtml(url, None, headers)
     else:    
-        html = url + '/page/' + str(pageNum)
+        html = url + 'page/' + str(pageNum)
         print html
         page = getHtml(html, None, headers)
     if page == None:
@@ -117,13 +120,29 @@ def downloadHtmlImg(pageNum):
         imgSerial = getImagepageHtmlSerial(imgHtml)
         #download img
         downImg(imgList, imgSerial)
-        
+ 
+#获取脚本文件的当前路径
+#def cur_file_dir():
+def getCurFileDir():
+     #获取脚本路径
+     path = sys.path[0]
+     #判断为脚本文件还是py2exe编译后的文件，如果是脚本文件，则返回的是脚本的目录，如果是py2exe编译后的文件，则返回的是编译后的文件路径
+     if os.path.isdir(path):
+         return path
+     elif os.path.isfile(path):
+         return os.path.dirname(path)
+     
     
 #for i = 0; i < 5; i++:
 def run():
-    for i in range(0, 2):
+    global filePath
+    urllib2.socket.setdefaulttimeout(20) 
+    filePath = getCurFileDir()
+    print filePath
+    for i in range(0, 1):
         #print i
-        downloadHtmlImg(1 + i)
+        #downloadHtmlImg(1 + i)
+        downloadHtmlImg(2 + i)
 
 
 '''
@@ -136,3 +155,5 @@ imghtmlList = list(set(imghtmlList))
 #print getImgSerial("http://www.jdlingyu.com/11970/")
 
 run()
+
+
